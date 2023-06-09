@@ -16,7 +16,7 @@
 	        <br> <br>
         <input type="password" name="password" placeholder="Senha">
             <br> <br>
-        <input type="password" name="password" placeholder="Confirmar senha">
+        <input type="password" name="confirm" placeholder="Confirmar senha">
             <br> <br>
         <a href="login.php"> <input value="Voltar" class="voltar" name="voltar"> </a>
         <button type="submit" value="cadastrar" class="cadastrar" name="cadastrar"> Cadastrar </button>
