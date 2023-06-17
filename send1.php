@@ -2,23 +2,21 @@
 
     include ('connect.php');
 
-    $user = addslashes ($_POST ['user']);
+    $name = addslashes ($_POST ['user']);
     $password = md5 (addslashes ($_POST ['password']));
-    $result = "insert into users (user, password) values ('$user', '$password');";
-    $create = "create table users (id int primary key auto_increment, user varchar (100) not null, password varchar (32) not null);";
 
-    if ($connect -> query ($create)) {
-        if (mysqli_query ($connect, $result)) {
-            echo "Usuário logado com sucesso!";
-        } else {
-            echo "Error";
-        }
-    } else if (mysqli_query ($connect, $result)) {
-        echo "Usuário logado com sucesso!";
+    $checkname = "select * from cadastrar where name = '$name'";
+    $checkresultname = $connect -> query ($checkname);
+    $checkpassword = "select * from cadastrar where password = '$password'";
+    $checkresultpassword = $connect -> query ($checkpassword);
+
+    if ($checkresultname -> num_rows > 0 && $checkresultpassword -> num_rows > 0) {
+        echo "Usuário logado com sucesso!";    
     } else {
-        echo "Error";
+        echo '<script type="text/JavaScript"> alert ("Usuário ou senha estão incorretos, tente novamente!") </script>';
+        echo "<meta http-equiv=refresh content='0;URL=login.php'>";
     }
- 
+
     mysqli_close ($connect);
 
 ?>
