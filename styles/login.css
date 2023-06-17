@@ -65,7 +65,7 @@ a {
 }
 
 .cadastrar {
-    width: 135px;
+        width: 135px;
 	height: 32px;
 	font-size: 20px;
 	color: white;
@@ -74,3 +74,4 @@ a {
 	background-color: red;
 	border-radius: 5px;
 }
+
