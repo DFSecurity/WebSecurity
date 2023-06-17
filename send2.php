@@ -8,35 +8,42 @@
         $email = addslashes ($_POST ['email']);
         $password = md5 (addslashes ($_POST ['password']));
         $confirm = md5 (addslashes ($_POST ['confirm']));
-    
+
+        $result = "insert into cadastrar (name, email, password, confirm) values ('$name', '$email', '$password', '$confirm');";
+        
         if ($password === $confirm && $confirm == $password) {
-
-            $result = "insert into cadastrar (name, email, password, confirm) values ('$name', '$email', '$password', '$confirm');";
-            $create = "create table cadastrar (id int primary key auto_increment, name varchar (100) not null, email varchar (100) not null, password varchar (32) not null, confirm varchar (32) not null);";
-
-            if ($connect -> query ($create)) {
                 
+            $checkname = "select * from cadastrar where name = '$name'";
+            $checkresultname = $connect -> query ($checkname);
+
+            $checkemail = "select * from cadastrar where email = '$email'";
+            $checkresultemail = $connect -> query ($checkemail);
+
+            if ($checkresultname -> num_rows > 0 && $checkresultemail -> num_rows > 0) {
+                echo '<script type="text/JavaScript"> alert ("Usuário e E-mail já cadastrado, tente novamente!"); </script>';
+                echo "<meta http-equiv=refresh content='0;URL=index.html'>";
+            } else if ($checkresultname -> num_rows > 0) {
+                echo '<script type="text/JavaScript"> alert ("Usuário já cadastrado, tente novamente!"); </script>';
+                echo "<meta http-equiv=refresh content='0;URL=index.html'>";
+            } else if ($checkresultemail -> num_rows > 0) {
+                echo '<script type="text/JavaScript"> alert ("E-mail já cadastrado, tente novamente!"); </script>';
+                echo "<meta http-equiv=refresh content='0;URL=index.html'>";
+            } else {
+
                 if (mysqli_query ($connect, $result)) {
-                    echo "Usuário cadastrado com sucesso!";
+                    echo '<script type="text/JavaScript"> alert ("Usuário cadastrado com sucesso!"); </script>';
+                    echo "<meta http-equiv=refresh content='0;URL=index.html'>";
                 } else {
                     echo "Error";
                 }
 
-            } else if (mysqli_query ($connect, $result)) {
-                
-                echo "Usuário cadastrado com sucesso!";
-            
-            } else {
+                mysqli_close ($connect);
 
-                echo "Error";
             }
 
-            mysqli_close ($connect);
-
         } else {
-            
-            echo "A senha e confirmar senha não coincidem!";
-        
+            echo '<script type="text/javascript"> alert ("A senha e confirmar senha não coincidem, tente novamente!"); </script>';
+            echo "<meta http-equiv=refresh content='0;URL=cadastrar.php'>";
         }
     
     }
